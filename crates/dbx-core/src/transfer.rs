@@ -639,6 +639,7 @@ pub fn escape_value_typed(val: &serde_json::Value, db_type: &DatabaseType, colum
                 {
                     format!("b'{escaped}'")
                 }
+                DatabaseType::SqlServer => format!("N'{escaped}'"),
                 _ => format!("'{escaped}'"),
             }
         }
@@ -4091,6 +4092,20 @@ mod tests {
             sql,
             "INSERT INTO `policies` (`dt`, `raw_text`, `d`, `t`) VALUES\n('2026-05-12 00:00:00', '2026-05-12T00:00:00+00:00', '2026-05-12', '09:30:45')"
         );
+    }
+
+    #[test]
+    fn sqlserver_insert_prefixes_string_literals_as_unicode() {
+        let sql = generate_insert_typed(
+            &[String::from("name"), String::from("note")],
+            &[Some(String::from("nvarchar(100)")), Some(String::from("varchar(100)"))],
+            &[vec![json!("Tiếng Việt"), json!("O'Brien")]],
+            "customers",
+            "dbo",
+            &DatabaseType::SqlServer,
+        );
+
+        assert_eq!(sql, "INSERT INTO [dbo].[customers] ([name], [note]) VALUES\n(N'Tiếng Việt', N'O''Brien')");
     }
 
     #[test]
