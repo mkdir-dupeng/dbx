@@ -776,6 +776,8 @@ function onDoubleClick() {
     openData();
   } else if (action === "open-source") {
     void viewObjectSource();
+  } else if (action === "open-saved-sql") {
+    openSavedSqlFile();
   } else if (action === "toggle" && props.node.type === "mongo-collection") {
     openMongoCollectionData(props.node);
   } else if (action === "toggle") {
@@ -788,6 +790,16 @@ function openMongoCollectionData(node: TreeNode) {
   const tabTitle = `${node.database}.${node.label}`;
   const tab = queryStore.createTab(node.connectionId, node.database, tabTitle, "mongo");
   queryStore.updateSql(tab, node.label);
+}
+
+function openSavedSqlFile() {
+  const node = props.node;
+  if (node.type !== "saved-sql-file" || !node.savedSqlId) return;
+  const file = savedSqlStore.getFile(node.savedSqlId);
+  if (!file) return;
+  queryStore.openSavedSql(file);
+  connectionStore.activeConnectionId = file.connectionId;
+  void savedSqlStore.recordFileUsage(file.id);
 }
 
 async function openObjectBrowser() {
