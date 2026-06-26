@@ -49,6 +49,7 @@ import type {
   DriverInstallProgress,
   JavaRuntimeConfig,
   UpdateInfo,
+  UpdateDownloadSource,
   RedisDatabaseInfo,
   RedisValue,
   RedisScanResult,
@@ -1808,6 +1809,10 @@ export async function installMcpServer(): Promise<string> {
 
 export async function getSystemProxyUrl(): Promise<string | null> {
   return null;
+}
+
+export async function downloadAndInstallUpdate(_source: UpdateDownloadSource, _latestVersion?: string): Promise<void> {
+  throw new Error("In-app update installation is only available in the desktop app.");
 }
 
 export async function getAppVersion(): Promise<string> {

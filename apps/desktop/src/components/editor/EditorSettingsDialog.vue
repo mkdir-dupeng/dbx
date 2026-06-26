@@ -34,6 +34,7 @@ import {
   type DesktopIconTheme,
   type InterfaceLayout,
   type DisconnectTabHandlingMode,
+  type UpdateDownloadSource,
   type CustomThemeColors,
   type CustomTheme,
 } from "@/stores/settingsStore";
@@ -226,6 +227,7 @@ const editExportBatchSize = ref(settingsStore.editorSettings.exportBatchSize);
 const editExportRowLimitEnabled = ref(settingsStore.editorSettings.exportRowLimitEnabled);
 const editExportRowLimit = ref(settingsStore.editorSettings.exportRowLimit);
 const editQueryExportKeysetOptimizationEnabled = ref(settingsStore.editorSettings.queryExportKeysetOptimizationEnabled);
+const editUpdateDownloadSource = ref<UpdateDownloadSource>(settingsStore.editorSettings.updateDownloadSource);
 const editToolbarItems = ref({ ...settingsStore.editorSettings.toolbarItems });
 const systemFonts = ref<string[]>([]);
 const systemFontsLoading = ref(false);
@@ -493,6 +495,7 @@ watch(
       editExportRowLimitEnabled.value = settingsStore.editorSettings.exportRowLimitEnabled;
       editExportRowLimit.value = settingsStore.editorSettings.exportRowLimit;
       editQueryExportKeysetOptimizationEnabled.value = settingsStore.editorSettings.queryExportKeysetOptimizationEnabled;
+      editUpdateDownloadSource.value = settingsStore.editorSettings.updateDownloadSource;
       editToolbarItems.value = { ...settingsStore.editorSettings.toolbarItems };
       editSnippets.value = settingsStore.editorSettings.snippets.map((s) => ({ ...s }));
     }
@@ -553,6 +556,7 @@ function hasChanges(): boolean {
     editExportRowLimitEnabled.value !== settingsStore.editorSettings.exportRowLimitEnabled ||
     editExportRowLimit.value !== settingsStore.editorSettings.exportRowLimit ||
     editQueryExportKeysetOptimizationEnabled.value !== settingsStore.editorSettings.queryExportKeysetOptimizationEnabled ||
+    editUpdateDownloadSource.value !== settingsStore.editorSettings.updateDownloadSource ||
     JSON.stringify(editToolbarItems.value) !== JSON.stringify(settingsStore.editorSettings.toolbarItems) ||
     JSON.stringify(normalizeSidebarHiddenTablePrefixes(editSidebarHiddenTablePrefixes.value)) !== JSON.stringify(settingsStore.editorSettings.sidebarHiddenTablePrefixes) ||
     JSON.stringify(editSnippets.value) !== JSON.stringify(settingsStore.editorSettings.snippets)
@@ -597,6 +601,7 @@ async function persistSettings() {
     exportRowLimitEnabled: editExportRowLimitEnabled.value,
     exportRowLimit: editExportRowLimit.value,
     queryExportKeysetOptimizationEnabled: editQueryExportKeysetOptimizationEnabled.value,
+    updateDownloadSource: editUpdateDownloadSource.value,
     toolbarItems: { ...editToolbarItems.value },
     snippets: editSnippets.value,
   });
@@ -675,6 +680,8 @@ function resetDefaultsForTab(tab: SettingsCategory) {
     editShortcuts.value = normalizeShortcutSettings(DEFAULT_EDITOR_SETTINGS.shortcuts);
   } else if (tab === "snippets") {
     editSnippets.value = DEFAULT_SQL_SNIPPETS.map((s) => ({ ...s }));
+  } else if (tab === "about") {
+    editUpdateDownloadSource.value = DEFAULT_EDITOR_SETTINGS.updateDownloadSource;
   }
 }
 
@@ -719,6 +726,7 @@ function resetAllDefaults() {
   editExportRowLimitEnabled.value = DEFAULT_EDITOR_SETTINGS.exportRowLimitEnabled;
   editExportRowLimit.value = DEFAULT_EDITOR_SETTINGS.exportRowLimit;
   editQueryExportKeysetOptimizationEnabled.value = DEFAULT_EDITOR_SETTINGS.queryExportKeysetOptimizationEnabled;
+  editUpdateDownloadSource.value = DEFAULT_EDITOR_SETTINGS.updateDownloadSource;
   editToolbarItems.value = { ...DEFAULT_EDITOR_SETTINGS.toolbarItems };
   editSnippets.value = DEFAULT_SQL_SNIPPETS.map((s) => ({ ...s }));
 }
@@ -902,6 +910,10 @@ function onDisconnectTabHandlingModeChange(v: any) {
 
 function onLocaleChange(v: any) {
   if (typeof v === "string") void setLocale(v as Locale);
+}
+
+function onUpdateDownloadSourceChange(v: any) {
+  if (v === "official" || v === "cnb") editUpdateDownloadSource.value = v;
 }
 
 function setSidebarObjectDisplay(value: "grouped" | "simple") {
@@ -3342,6 +3354,24 @@ watch(
                 </div>
               </div>
 
+              <div class="rounded-lg border p-4">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div class="min-w-0 space-y-1">
+                    <Label>{{ t("settings.updateDownloadSource") }}</Label>
+                    <p class="text-sm text-muted-foreground">{{ t("settings.updateDownloadSourceDescription") }}</p>
+                  </div>
+                  <Select :model-value="editUpdateDownloadSource" @update:model-value="onUpdateDownloadSourceChange">
+                    <SelectTrigger class="h-9 w-full sm:w-[180px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="official">{{ t("settings.updateDownloadSourceOfficial") }}</SelectItem>
+                      <SelectItem value="cnb">{{ t("settings.updateDownloadSourceCnb") }}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
               <div class="grid gap-3 sm:grid-cols-2">
                 <button type="button" class="rounded-lg border p-4 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" @click="openExternalUrl('https://qm.qq.com/cgi-bin/qm/qr?k=&group_code=1087880322')">
                   <div class="text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -3514,6 +3544,12 @@ watch(
             <div class="flex-1" />
             <Button variant="outline" @click="emit('update:open', false)">
               {{ t("common.close") }}
+            </Button>
+            <Button :disabled="!hasChanges() || hasApplyBlocker" @click="applySettings">
+              {{ t("settings.apply") }}
+            </Button>
+            <Button :disabled="!hasChanges() || hasApplyBlocker" @click="applySettingsAndClose">
+              {{ t("settings.applyAndClose") }}
             </Button>
           </DialogFooter>
         </div>
