@@ -257,6 +257,8 @@ const CELL_DETAIL_PANEL_LAYOUTS = ["bottom", "right"] as const;
 export type CellDetailPanelLayout = (typeof CELL_DETAIL_PANEL_LAYOUTS)[number];
 const DATA_GRID_RENDER_MODES = ["dom", "canvas"] as const;
 export type DataGridRenderMode = (typeof DATA_GRID_RENDER_MODES)[number];
+const DATA_GRID_SEARCH_MODES = ["filter", "highlight"] as const;
+export type DataGridSearchMode = (typeof DATA_GRID_SEARCH_MODES)[number];
 export const TABLE_FONT_SIZE_MIN = 12;
 export const TABLE_FONT_SIZE_MAX = 16;
 export const TABLE_FONT_SIZE_DEFAULT = 13;
@@ -351,6 +353,7 @@ export interface EditorSettings {
   compactColumnHeaderActions: boolean;
   dataGridQuickEntry: boolean;
   dataGridRenderMode: DataGridRenderMode;
+  dataGridSearchMode: DataGridSearchMode;
   tableFontSize: number;
   structureEditorDensity: StructureEditorDensity;
   tableInfoDrawerWidth: number;
@@ -464,6 +467,7 @@ export const DEFAULT_EDITOR_SETTINGS: EditorSettings = {
   compactColumnHeaderActions: true,
   dataGridQuickEntry: false,
   dataGridRenderMode: "canvas",
+  dataGridSearchMode: "filter",
   tableFontSize: TABLE_FONT_SIZE_DEFAULT,
   structureEditorDensity: "compact",
   tableInfoDrawerWidth: 320,
@@ -527,6 +531,10 @@ function normalizeCellDetailPanelLayout(value: unknown): CellDetailPanelLayout {
 
 function normalizeDataGridRenderMode(value: unknown): DataGridRenderMode {
   return DATA_GRID_RENDER_MODES.includes(value as DataGridRenderMode) ? (value as DataGridRenderMode) : DEFAULT_EDITOR_SETTINGS.dataGridRenderMode;
+}
+
+function normalizeDataGridSearchMode(value: unknown): DataGridSearchMode {
+  return DATA_GRID_SEARCH_MODES.includes(value as DataGridSearchMode) ? (value as DataGridSearchMode) : DEFAULT_EDITOR_SETTINGS.dataGridSearchMode;
 }
 
 function normalizeTableFontSize(value: unknown): number {
@@ -679,6 +687,7 @@ export function normalizeEditorSettings(settings: Partial<EditorSettings>, exist
     compactColumnHeaderActions: settings.compactColumnHeaderActions ?? DEFAULT_EDITOR_SETTINGS.compactColumnHeaderActions,
     dataGridQuickEntry: settings.dataGridQuickEntry ?? DEFAULT_EDITOR_SETTINGS.dataGridQuickEntry,
     dataGridRenderMode: normalizeDataGridRenderMode(settings.dataGridRenderMode),
+    dataGridSearchMode: normalizeDataGridSearchMode(settings.dataGridSearchMode),
     tableFontSize: normalizeTableFontSize(settings.tableFontSize),
     structureEditorDensity: normalizeStructureEditorDensity(settings.structureEditorDensity),
     tableInfoDrawerWidth: normalizeDrawerWidth(settings.tableInfoDrawerWidth, 240, DEFAULT_EDITOR_SETTINGS.tableInfoDrawerWidth),
@@ -901,6 +910,7 @@ export const useSettingsStore = defineStore("settings", () => {
     if (partial.compactColumnHeaderActions !== undefined) editorSettings.value.compactColumnHeaderActions = partial.compactColumnHeaderActions;
     if (partial.dataGridQuickEntry !== undefined) editorSettings.value.dataGridQuickEntry = partial.dataGridQuickEntry;
     if (partial.dataGridRenderMode !== undefined) editorSettings.value.dataGridRenderMode = normalizeDataGridRenderMode(partial.dataGridRenderMode);
+    if (partial.dataGridSearchMode !== undefined) editorSettings.value.dataGridSearchMode = normalizeDataGridSearchMode(partial.dataGridSearchMode);
     if (partial.tableFontSize !== undefined) editorSettings.value.tableFontSize = normalizeTableFontSize(partial.tableFontSize);
     if (partial.structureEditorDensity !== undefined) editorSettings.value.structureEditorDensity = normalizeStructureEditorDensity(partial.structureEditorDensity);
     if (partial.tableInfoDrawerWidth !== undefined) editorSettings.value.tableInfoDrawerWidth = normalizeDrawerWidth(partial.tableInfoDrawerWidth, 240, DEFAULT_EDITOR_SETTINGS.tableInfoDrawerWidth);
