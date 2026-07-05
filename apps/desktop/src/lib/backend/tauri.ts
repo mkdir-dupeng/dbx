@@ -20,6 +20,7 @@ import type {
   SequenceInfo,
   RuleInfo,
   OwnerInfo,
+  ExtensionInfo,
   QueryResult,
   SqlReferenceAnalysis,
   DatabaseType,
@@ -30,6 +31,7 @@ import type {
   SavedSqlFile,
   SavedSqlFolder,
   SavedSqlLibrary,
+  SshConfigHostEntry,
 } from "@/types/database";
 import type { CollectionInfo } from "@/types/database";
 import type { SidebarObjectKind } from "@/lib/database/databaseObjectCapabilities";
@@ -493,6 +495,10 @@ export async function savePinnedTreeNodeIds(ids: string[]): Promise<void> {
 
 export async function listSystemFonts(): Promise<string[]> {
   return invoke("list_system_fonts");
+}
+
+export async function listSshConfigHosts(): Promise<SshConfigHostEntry[]> {
+  return invoke("list_ssh_config_hosts");
 }
 
 export async function pendingOpenSqlFiles(): Promise<string[]> {
@@ -988,6 +994,14 @@ export async function listRules(connectionId: string, database: string, schema: 
 
 export async function listOwners(connectionId: string, database: string, schema: string): Promise<OwnerInfo[]> {
   return invoke("list_owners", { connectionId, database, schema });
+}
+
+export async function listExtensions(connectionId: string, database: string, schema: string): Promise<ExtensionInfo[]> {
+  return invoke("list_extensions", { connectionId, database, schema });
+}
+
+export async function listAvailableExtensions(connectionId: string, database: string): Promise<ExtensionInfo[]> {
+  return invoke("list_available_extensions", { connectionId, database });
 }
 
 export async function saveConnections(configs: ConnectionConfig[]): Promise<void> {

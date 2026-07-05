@@ -132,6 +132,8 @@ export const listFunctions = forward("listFunctions");
 export const listSequences = forward("listSequences");
 export const listRules = forward("listRules");
 export const listOwners = forward("listOwners");
+export const listExtensions = forward("listExtensions");
+export const listAvailableExtensions = forward("listAvailableExtensions");
 export const prepareSchemaDiff = forward("prepareSchemaDiff");
 export const generateSchemaSyncSql = forward("generateSchemaSyncSql");
 
@@ -240,6 +242,7 @@ export const deleteAiConversation = forward("deleteAiConversation");
 
 // System
 export const listSystemFonts = forward("listSystemFonts");
+export const listSshConfigHosts = forward("listSshConfigHosts");
 
 // SQL File Execution
 export const previewSqlFile = forward("previewSqlFile");

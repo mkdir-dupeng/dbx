@@ -246,6 +246,7 @@ async fn main() {
         .route("/jdbc/plugin/uninstall", post(routes::jdbc::uninstall_jdbc_plugin))
         // System
         .route("/system/fonts", get(routes::jdbc::list_system_fonts))
+        .route("/ssh/config-hosts", get(routes::ssh_config::list_ssh_config_hosts))
         // Agent drivers
         .route("/agents/installed-local", get(routes::agents::list_installed_agents_local))
         .route("/agents/installed", get(routes::agents::list_installed_agents))
@@ -288,6 +289,8 @@ async fn main() {
         .route("/schema/sequences", get(routes::schema::list_sequences))
         .route("/schema/rules", get(routes::schema::list_rules))
         .route("/schema/owners", get(routes::schema::list_owners))
+        .route("/schema/extensions", get(routes::schema::list_extensions))
+        .route("/schema/available-extensions", get(routes::schema::list_available_extensions))
         .route("/schema/ddl", get(routes::schema::get_ddl))
         .route("/schema-diff/prepare", post(routes::schema_diff::prepare_schema_diff))
         .route("/schema-diff/generate-sync-sql", post(routes::schema_diff::generate_schema_sync_sql))

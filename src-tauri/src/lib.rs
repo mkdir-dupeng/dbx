@@ -799,6 +799,8 @@ pub fn run() {
             commands::schema::list_sequences,
             commands::schema::list_rules,
             commands::schema::list_owners,
+            commands::schema::list_extensions,
+            commands::schema::list_available_extensions,
             commands::schema_diff::prepare_schema_diff,
             commands::schema_diff::generate_schema_sync_sql,
             commands::schema_cache::save_schema_cache,
@@ -1102,6 +1104,7 @@ pub fn run() {
             commands::agents::import_agents_from_zip,
             commands::agents::import_agent_jar_cmd,
             commands::system_fonts::list_system_fonts,
+            commands::ssh_config::list_ssh_config_hosts,
         ])
         .build(tauri::generate_context!())
         .expect("error while building tauri application")

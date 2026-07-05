@@ -14,6 +14,7 @@ import type {
   IndexInfo,
   ForeignKeyInfo,
   TriggerInfo,
+  ExtensionInfo,
   FunctionInfo,
   SequenceInfo,
   RuleInfo,
@@ -29,6 +30,7 @@ import type {
   SavedSqlFile,
   SavedSqlFolder,
   SavedSqlLibrary,
+  SshConfigHostEntry,
 } from "@/types/database";
 import type { CollectionInfo } from "@/types/database";
 import type { SchemaDiffPreparation, SchemaDiffPreparationOptions, TableDiff, FunctionDiff, SequenceDiff, RuleDiff, OwnerDiff } from "@/lib/schema/schemaDiff";
@@ -240,6 +242,10 @@ export async function decryptConfig(payload: unknown, passphrase: string): Promi
 
 export async function listSystemFonts(): Promise<string[]> {
   return get("/api/system/fonts");
+}
+
+export async function listSshConfigHosts(): Promise<SshConfigHostEntry[]> {
+  return get("/api/ssh/config-hosts");
 }
 
 export async function listPlugins(): Promise<InstalledPlugin[]> {
@@ -603,6 +609,14 @@ export async function listRules(connectionId: string, database: string, schema: 
 
 export async function listOwners(connectionId: string, database: string, schema: string): Promise<OwnerInfo[]> {
   return get(`/api/schema/owners?${qs({ connection_id: connectionId, database, schema })}`);
+}
+
+export async function listExtensions(connectionId: string, database: string, schema: string): Promise<ExtensionInfo[]> {
+  return get(`/api/schema/extensions?${qs({ connection_id: connectionId, database, schema })}`);
+}
+
+export async function listAvailableExtensions(connectionId: string, database: string): Promise<ExtensionInfo[]> {
+  return get(`/api/schema/available-extensions?${qs({ connection_id: connectionId, database })}`);
 }
 
 // ---------------------------------------------------------------------------
