@@ -1357,6 +1357,8 @@ export default withEnglishFallback({
     renameObjectSuccess: '"{oldName}" renombrado a "{newName}"',
     confirmDropTableTitle: "Eliminar tabla",
     confirmDropTableMessage: '¿Estás seguro de que deseas eliminar "{name}"? Esto borrará permanentemente la tabla y todos sus datos.',
+    dropTableCascade: "Usar CASCADE",
+    dropTableCascadeHint: "También elimina objetos dependientes, como vistas. Desactívalo para usar el comportamiento RESTRICT predeterminado de PostgreSQL.",
     confirmEmptyTableTitle: "Vaciar tabla",
     confirmEmptyTableMessage: '¿Estás seguro de que deseas eliminar todos los datos de "{name}"?',
     confirmTruncateTableTitle: "Truncar tabla",

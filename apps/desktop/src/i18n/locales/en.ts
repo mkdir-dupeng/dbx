@@ -1399,6 +1399,8 @@ export default {
     renameObjectSuccess: '"{oldName}" renamed to "{newName}"',
     confirmDropTableTitle: "Drop Table",
     confirmDropTableMessage: 'Are you sure you want to drop "{name}"? This will permanently delete the table and all its data.',
+    dropTableCascade: "Use CASCADE",
+    dropTableCascadeHint: "Also drop dependent objects such as views. Leave off to use PostgreSQL's default RESTRICT behavior.",
     confirmEmptyTableTitle: "Empty Table",
     confirmEmptyTableMessage: 'Are you sure you want to delete all data from "{name}"?',
     confirmTruncateTableTitle: "Truncate Table",

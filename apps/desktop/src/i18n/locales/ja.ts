@@ -1353,6 +1353,8 @@ export default withEnglishFallback({
     renameObjectSuccess: "「{oldName}」の名前を「{newName}」に変更しました",
     confirmDropTableTitle: "テーブルを削除",
     confirmDropTableMessage: "本当にテーブル「{name}」をドロップ（削除）しますか？テーブルとすべてのデータが永久に削除されます。",
+    dropTableCascade: "CASCADE を使用",
+    dropTableCascadeHint: "ビューなど、このテーブルに依存するオブジェクトも削除します。オフの場合は PostgreSQL の既定の RESTRICT を使用します。",
     confirmEmptyTableTitle: "テーブルを空にする",
     confirmEmptyTableMessage: "本当に「{name}」のすべてのデータを削除しますか？",
     confirmTruncateTableTitle: "テーブルをトランケート",

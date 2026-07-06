@@ -1401,6 +1401,8 @@ export default withEnglishFallback({
     renameObjectSuccess: "已将「{oldName}」重命名为「{newName}」",
     confirmDropTableTitle: "删除表",
     confirmDropTableMessage: "确定要删除「{name}」吗？这将永久删除表及其所有数据。",
+    dropTableCascade: "使用 CASCADE 强制删除",
+    dropTableCascadeHint: "同时删除依赖该表的对象（如视图）。未勾选时使用 PostgreSQL 默认的 RESTRICT。",
     confirmEmptyTableTitle: "清空数据",
     confirmEmptyTableMessage: "确定要删除「{name}」中的所有数据吗？",
     confirmTruncateTableTitle: "截断表",

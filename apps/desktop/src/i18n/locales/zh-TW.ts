@@ -1356,6 +1356,8 @@ export default withEnglishFallback({
     renameObjectSuccess: "已將「{oldName}」重新命名為「{newName}」",
     confirmDropTableTitle: "刪除資料表",
     confirmDropTableMessage: "確定要刪除「{name}」嗎？這將永久刪除資料表及其所有資料。",
+    dropTableCascade: "使用 CASCADE 強制刪除",
+    dropTableCascadeHint: "同時刪除依賴此資料表的物件（例如檢視）。未勾選時使用 PostgreSQL 預設的 RESTRICT。",
     confirmEmptyTableTitle: "清空資料",
     confirmEmptyTableMessage: "確定要刪除「{name}」中的所有資料嗎？",
     confirmTruncateTableTitle: "截斷資料表",
