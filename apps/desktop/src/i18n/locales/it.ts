@@ -1759,6 +1759,9 @@ export default withEnglishFallback({
     dropExtension: "Elimina estensione",
     processList: "Elenco processi",
     serverDashboard: "Dashboard del server",
+    createProcedure: "Nuovo stored procedure",
+    createFunction: "Nuova funzione",
+    createTrigger: "Nuovo trigger",
   },
   visibleDatabases: {
     title: "Database Visibili",

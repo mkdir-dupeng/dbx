@@ -1761,6 +1761,9 @@ export default withEnglishFallback({
     dropExtension: "Eliminar extensión",
     processList: "Lista de procesos",
     serverDashboard: "Panel de control del servidor",
+    createProcedure: "Nuevo procedimiento almacenado",
+    createFunction: "Nueva función",
+    createTrigger: "Nuevo disparador",
   },
   visibleDatabases: {
     title: "Bases de datos visibles",
